@@ -31,32 +31,32 @@ def test_show_my_pets():
     # Проверяем, что мы оказались на странице "мои питомцы"
     pytest.driver.find_element_by_xpath('//*[contains(text(),"Мои питомцы")]').click()
     pytest.driver.implicitly_wait(10)
-   # Количество питомцев в блоке статистики пользователя
-   pets_statistic = pytest.driver.find_elements_by_xpath('//div[@class=".col-sm-4 left"]')
-   # Определяем список с количеством карточек питомцев
-   descriptions = pytest.driver.find_elements_by_xpath('//*[@id="all_my_pets"]//tbody/tr')
-   # Получаем количество питомцев с фотографией
-   images = pytest.driver.find_elements_by_xpath('//*[@id="all_my_pets"]//img')
-   # Получаем список питомцев с именами
-   names = pytest.driver.find_elements_by_xpath('//*[@id="all_my_pets"]//td[1]')
-   name_true = []
-   for i in names:
-       name_true.append(i.text)
+    # Количество питомцев в блоке статистики пользователя
+    pets_statistic = pytest.driver.find_elements_by_xpath('//div[@class=".col-sm-4 left"]')
+    # Определяем список с количеством карточек питомцев
+    descriptions = pytest.driver.find_elements_by_xpath('//*[@id="all_my_pets"]//tbody/tr')
+    # Получаем количество питомцев с фотографией
+    images = pytest.driver.find_elements_by_xpath('//*[@id="all_my_pets"]//img')
+    # Получаем список питомцев с именами
+    names = pytest.driver.find_elements_by_xpath('//*[@id="all_my_pets"]//td[1]')
+    name_true = []
+    for i in names:
+        name_true.append(i.text)
 
-   assert statistics == len(descriptions) # смотрим питомцев
+    assert statistics == len(descriptions) # смотрим питомцев
 
-   for i in range(len(names)):
-       assert images[i].get_attribute('src') != '' # смотрим наличие фотографий у всех питомцев
-       assert statistics == len(images) # смотрим, что хотя бы у половины питомцев есть фото
-       assert names[i].text != '' # смотрим, что у всех питомцев есть имя
-       assert descriptions[i].text != '' # смотрим, что все карточки заполнены
-       assert statistics == len(names) # смотрим, что все питомцы имеют имя возраст и породу
+    for i in range(len(names)):
+        assert images[i].get_attribute('src') != '' # смотрим наличие фотографий у всех питомцев
+        assert statistics == len(images) # смотрим, что хотя бы у половины питомцев есть фото
+        assert names[i].text != '' # смотрим, что у всех питомцев есть имя
+        assert descriptions[i].text != '' # смотрим, что все карточки заполнены
+        assert statistics == len(names) # смотрим, что все питомцы имеют имя возраст и породу
 
-# Смотрим, что нет повторяющихся питомцев
-   assert len(Counter(all_pets)) == len(all_pets)
-   # Смотрим, что имя каждого животного уникально
-   assert len(Counter(list_names)) == len(list_names)
-   # Смотрим, что количество строк таблицы соответствует количеству питомцев в блоке статистики пользователя
-   assert f"Питомцев: {len(names)}" in amount[0].text
-   # Смотрим, что минимум у половины питомцев присутствует фотография
-   assert pets_with_photo >= len(names) / 2
+    # Смотрим, что нет повторяющихся питомцев
+    assert len(Counter(all_pets)) == len(all_pets)
+    # Смотрим, что имя каждого животного уникально
+    assert len(Counter(list_names)) == len(list_names)
+    # Смотрим, что количество строк таблицы соответствует количеству питомцев в блоке статистики пользователя
+    assert f"Питомцев: {len(names)}" in amount[0].text
+    # Смотрим, что минимум у половины питомцев присутствует фотография
+    assert pets_with_photo >= len(names) / 2
